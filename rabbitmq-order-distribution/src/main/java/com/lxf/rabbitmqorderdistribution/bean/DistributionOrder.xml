@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE mapper
+    PUBLIC '-//mybatis.org//DTD Dao 3.0//EN' 
+    'http://mybatis.org/dtd/mybatis-3-mapper.dtd' >
+<!-- 系统用户 -->
+<!-- 需要和DAO保持完全路径一致 -->
+<mapper createTimespace='com.lxf.rabbitmqorderdistribution.bean.DistributionOrderDao'>
+    <!-- 表字段信息  -->
+    <sql id='tableColumns'>
+        order_id,msg,user_id,del_flag,create_time
+    </sql>
+
+    <!-- 查询分页数据信息  -->
+    <select id='doSelectList' parameterType='DistributionOrder' resultType='DistributionOrder'>
+        SELECT <include refid='tableColumns'/> FROM user_order
+        WHERE 1 = 1 
+            <if test=' orderId != null and orderId !="" '><!-- 流水ID -->
+                AND order_id  = #{orderId}
+            </if>
+            <if test=' msg != null and msg !="" '><!-- 用户手机号码 -->
+                AND msg = #{msg}
+            </if>
+            <if test=' userId != null and userId !="" '><!-- 用户账户 -->
+                AND user_id = #{userId}
+            </if>
+            <if test=' delFlag != null and delFlag !="" '><!-- 登录密码 -->
+                AND del_flag = #{delFlag}
+            </if>
+            <if test=' createTime != null and createTime !="" '><!-- 用户姓名 -->
+                AND create_time = #{createTime}
+            </if>
+    </select>
+
+    <!-- 插入一条数据 -->
+    <insert id='doInsert' parameterType='DistributionOrder'>
+        INSERT INTO user_order
+          (msg,user_id,del_flag,create_time)
+        VALUES 
+          (#{msg},#{user_id},#{del_flag},#{create_time})
+    </insert>
+    <!-- 修改一条数据 -->
+    <update id='doUpdate' parameterType='DistributionOrder'>
+        UPDATE user_order SET order_id = #{orderId}
+        <if test=' userId != null and userId !="" '><!-- 用户账户 -->
+            ,user_id = #{userId}
+        </if>
+        <if test=' msg != null and msg !="" '><!-- 用户手机号码 -->
+            ,msg = #{msg}
+        </if>
+        <if test=' delFlag != null and delFlag !="" '><!-- 登录密码 -->
+            ,del_flag = #{delFlag}
+        </if>
+        <if test=' createTime != null and createTime !="" '><!-- 用户姓名 -->
+            ,create_time = #{createTime}
+        </if>
+    </update>
+    <!-- 物理删除一条数据 -->
+    <delete id='doDelete' parameterType='DistributionOrder'>
+        DELETE FROM user_order
+        WHERE  order_id  = #{orderId}
+    </delete>
+    <!-- 查询一条数据  -->
+    <select id='doRead' parameterType='DistributionOrder' resultType='DistributionOrder'>
+        SELECT <include refid='tableColumns'/> FROM user_order WHERE  order_id  = #{orderId}
+    </select>
+
+</mapper>
