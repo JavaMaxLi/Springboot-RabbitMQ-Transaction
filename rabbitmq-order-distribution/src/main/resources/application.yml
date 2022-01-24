@@ -1,0 +1,17 @@
+server:
+  port: 8010
+
+spring:
+  rabbitmq:
+    host: 101.43.13.93
+    port: 5672
+    username: admin
+    password: admin123
+    virtual-host: /
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://101.43.13.93:3306/rabbitmq_order_distribution?useUnicode=yes&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=UTC
+    username: root
+    password: Lxf_332521
+    driver-class-name: com.mysql.jdbc.Driver
