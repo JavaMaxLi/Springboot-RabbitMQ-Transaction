@@ -8,6 +8,13 @@ spring:
     username: admin
     password: admin123
     virtual-host: /
+    listener:   #开启手动ack，控制消息重试次数
+      simple:
+        acknowledge-mode: manual
+        retry:
+          enabled: true       #自动重连
+          max-attempts: 3    #最大重试次数
+          initial-interval: 2000ms    #重试间隔时间
 
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -15,3 +22,12 @@ spring:
     username: root
     password: Lxf_332521
     driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:com/lxf/rabbitmqorderdistribution/bean/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.lxf.rabbitmqorderdistribution.bean.*
+
+logging:
+  level:
+    com.lxf.rabbitmqorderdistribution: debug

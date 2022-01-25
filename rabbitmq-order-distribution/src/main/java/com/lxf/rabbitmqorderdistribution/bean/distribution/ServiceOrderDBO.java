@@ -1,10 +1,13 @@
-package com.lxf.rabbitmqorderservice.bean;
+package com.lxf.rabbitmqorderdistribution.bean.distribution;
+
+import com.lxf.rabbitmqorderdistribution.helper.DateHelper;
+import com.lxf.rabbitmqorderdistribution.helper.EmptyHelper;
 
 /**
  * @author LiXiaoFeng
  * @date 2022年01月24日 17:51
  */
-public class ServiceOrder {
+public class ServiceOrderDBO {
 
     private int serviceId;
 
@@ -74,5 +77,20 @@ public class ServiceOrder {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public void prepareInsert() {
+        if (EmptyHelper.isEmpty(status)) {
+            setStatus("0");
+        }
+        if (EmptyHelper.isEmpty(delFlag)) {
+            setDelFlag("0");
+        }
+        if (EmptyHelper.isEmpty(createTime)) {
+            setCreateTime(DateHelper.currentTimeMillisCN1());
+        }
+        if (EmptyHelper.isEmpty(riderId)) {
+            setRiderId("11111111111");
+        }
     }
 }

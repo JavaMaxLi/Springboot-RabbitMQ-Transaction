@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE mapper
+    PUBLIC '-//mybatis.org//DTD Dao 3.0//EN' 
+    'http://mybatis.org/dtd/mybatis-3-mapper.dtd' >
+<!-- 系统用户 -->
+<!-- 需要和DAO保持完全路径一致 -->
+<mapper namespace='com.lxf.rabbitmqorderdistribution.bean.distribution.ServiceOrderDao'>
+    <!-- 表字段信息  -->
+    <sql id='tableColumns'>
+        service_id,order_id,msg,status,rider_id,del_flag,create_time
+    </sql>
+
+    <!-- 查询分页数据信息  -->
+    <select id='doSelectList' parameterType='ServiceOrderDBO' resultType='ServiceOrderDBO'>
+        SELECT <include refid='tableColumns'/> FROM order_service
+        WHERE 1 = 1 
+            <if test=' serviceId != null and serviceId !="" '><!-- 派送ID -->
+                AND service_id  = #{serviceId}
+            </if>
+            <if test=' orderId != null and orderId !="" '><!-- 订单ID -->
+                AND order_id  = #{orderId}
+            </if>
+            <if test=' msg != null and msg !="" '><!-- 内容 -->
+                AND msg = #{msg}
+            </if>
+            <if test=' status != null and status !="" '><!-- 状态 -->
+                AND status = #{status}
+            </if>
+            <if test=' riderId != null and riderId !="" '><!-- 骑手id -->
+                AND rider_id = #{riderId}
+            </if>
+            <if test=' delFlag != null and delFlag !="" '><!-- 删除标识 -->
+                AND del_flag = #{delFlag}
+            </if>
+            <if test=' createTime != null and createTime !="" '><!-- 创建时间 -->
+                AND create_time = #{createTime}
+            </if>
+    </select>
+
+    <!-- 插入一条数据 -->
+    <insert id='doInsert' parameterType='ServiceOrderDBO' useGeneratedKeys="true" keyProperty="serviceId">
+        INSERT INTO order_service
+          (order_id,msg,status,rider_id,del_flag,create_time)
+        VALUES 
+          (#{orderId},#{msg},#{status},#{riderId},#{delFlag},#{createTime})
+    </insert>
+    <!-- 修改一条数据 -->
+    <update id='doUpdate' parameterType='ServiceOrderDBO'>
+        UPDATE order_service SET order_id = #{orderId}
+        <if test=' riderId != null and riderId !="" '><!-- 骑手ID -->
+            ,rider_id = #{riderId}
+        </if>
+        <if test=' msg != null and msg !="" '><!-- 订单内容 -->
+            ,msg = #{msg}
+        </if>
+        <if test=' status != null and status !="" '><!-- 状态 -->
+            ,status = #{status}
+        </if>
+        <if test=' delFlag != null and delFlag !="" '><!-- 登录密码 -->
+            ,del_flag = #{delFlag}
+        </if>
+        <if test=' createTime != null and createTime !="" '><!-- 创建时间 -->
+            ,create_time = #{createTime}
+        </if>
+        where service_id = #{serviceId}
+    </update>
+    <!-- 物理删除一条数据 -->
+    <delete id='doDelete' parameterType='ServiceOrderDBO'>
+        DELETE FROM order_service
+        WHERE  service_id = #{serviceId}
+    </delete>
+    <!-- 查询一条数据  -->
+    <select id='doRead' parameterType='ServiceOrderDBO' resultType='ServiceOrderDBO'>
+        SELECT <include refid='tableColumns'/> FROM order_service WHERE  service_id = #{serviceId}
+    </select>
+
+</mapper>

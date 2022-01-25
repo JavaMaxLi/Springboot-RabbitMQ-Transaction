@@ -1,10 +1,15 @@
-package com.lxf.rabbitmqorderdistribution.bean;
+package com.lxf.rabbitmqorderservice.bean.order;
+
+import com.lxf.rabbitmqorderservice.helper.DateHelper;
+import com.lxf.rabbitmqorderservice.helper.EmptyHelper;
+
+import java.io.Serializable;
 
 /**
  * @author LiXiaoFeng
- * @date 2022年01月24日 17:49
+ * @date 2022年01月25日 10:10
  */
-public class DistributionOrder {
+public class DistributionOrder implements Serializable {
     private int orderId;
 
     private String msg;
@@ -53,5 +58,25 @@ public class DistributionOrder {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public void prepareInsert() {
+        if (EmptyHelper.isEmpty(createTime)) {
+            setCreateTime(DateHelper.currentTimeMillisCN1());
+        }
+        if (EmptyHelper.isEmpty(delFlag)) {
+            setDelFlag("0");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "DistributionOrder{" +
+                "orderId=" + orderId +
+                ", msg='" + msg + '\'' +
+                ", userId='" + userId + '\'' +
+                ", delFlag='" + delFlag + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 }

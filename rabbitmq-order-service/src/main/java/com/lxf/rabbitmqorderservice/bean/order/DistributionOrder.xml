@@ -4,7 +4,7 @@
     'http://mybatis.org/dtd/mybatis-3-mapper.dtd' >
 <!-- 系统用户 -->
 <!-- 需要和DAO保持完全路径一致 -->
-<mapper createTimespace='com.lxf.rabbitmqorderdistribution.bean.DistributionOrderDao'>
+<mapper namespace='com.lxf.rabbitmqorderservice.bean.order.DistributionOrderDao'>
     <!-- 表字段信息  -->
     <sql id='tableColumns'>
         order_id,msg,user_id,del_flag,create_time
@@ -32,11 +32,11 @@
     </select>
 
     <!-- 插入一条数据 -->
-    <insert id='doInsert' parameterType='DistributionOrder'>
+    <insert id='doInsert' parameterType='DistributionOrder' useGeneratedKeys="true" keyProperty="orderId">
         INSERT INTO user_order
           (msg,user_id,del_flag,create_time)
         VALUES 
-          (#{msg},#{user_id},#{del_flag},#{create_time})
+          (#{msg},#{userId},#{delFlag},#{createTime})
     </insert>
     <!-- 修改一条数据 -->
     <update id='doUpdate' parameterType='DistributionOrder'>
